@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Header from './Header';
-import UserData from './UserData';
+import React, { useState } from "react";
+import Header from "./Header";
+import UserData from "./UserData";
 
 const History = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Handle change in the search input
   const handleSearch = (e) => {
@@ -11,11 +11,11 @@ const History = () => {
   };
 
   return (
-    <div className='relative min-h-screen bg-gray-900 text-white'>
+    <div className="relative min-h-screen bg-gray-900 text-white">
       <Header />
-      <div className="p-6 mx-auto">
+      <div className="p-4 sm:p-6 mx-auto ">
         {/* Search Input */}
-        <div className="mt-20">
+        <div className="mt-10 sm:mt-20">
           <input
             type="text"
             placeholder="Search submissions..."
@@ -25,7 +25,7 @@ const History = () => {
           />
         </div>
 
-        <div className="p-6 rounded-lg shadow-md">
+        <div className="mt-6 p-2  rounded-lg shadow-md">
           {/* Pass searchTerm as a prop to filter submissions */}
           <UserData searchTerm={searchTerm} />
         </div>

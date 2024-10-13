@@ -222,7 +222,7 @@ const QuizPage = () => {
                 <p className="text-gray-300 text-lg mb-4">Starts in</p>
                 <div className="flex justify-center space-x-4">
                   <div className="bg-gray-800 text-white p-4 rounded-lg">
-                    <p className="text-3xl font-semibold">
+                    <p className="text-3xl  font-semibold">
                       {Math.floor(remainingTime / (1000 * 60 * 60 * 24))}
                     </p>
                     <p className="text-sm mt-2">day</p>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import ConfirmModal from "./ConfirmModal";
@@ -14,7 +13,6 @@ const Quiz = () => {
   const user = useSelector((state) => state.app.user);
   const [showModal, setShowModal] = useState(false);
   const [submissionToDelete, setSubmissionToDelete] = useState(null);
-  const token = localStorage.getItem("UserToken");
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -101,7 +99,7 @@ const Quiz = () => {
   return (
     <div className="relative min-h-screen bg-gray-900 text-white">
       <Header />
-      <div className="container mx-auto p-4">
+      <div className="mx-auto p-4">
         <div className="flex flex-col sm:flex-row mt-20 space-y-4 sm:space-y-0 sm:space-x-4">
           <button
             onClick={handleAddQuiz}

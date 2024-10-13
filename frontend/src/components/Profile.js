@@ -19,13 +19,23 @@ const Profile = () => {
     education: "",
     linkedIn: "",
   });
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // State for window width
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    
+    // Clean up the event listener on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosInstance.get(
-          "get-current-user",
-        );
+        const response = await axiosInstance.get("get-current-user");
         setUser(response.data.user);
         setFormData({
           fullName: response.data.user.fullName || "",
@@ -41,7 +51,6 @@ const Profile = () => {
         });
       } catch (error) {
         toast.error("Error fetching user data");
-        // console.error("Error fetching user data:", error);
       }
     };
     fetchUserData();
@@ -58,14 +67,11 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(!formData.fullName){
+      if (!formData.fullName) {
         toast.error("Name is required");
         return;
       }
-      const response = await axiosInstance.put(
-        "update",
-        formData,
-      );
+      const response = await axiosInstance.put("update", formData);
       if (response.data.success) {
         toast.success("Profile updated successfully");
         setUser(response.data.user);
@@ -73,21 +79,20 @@ const Profile = () => {
       }
     } catch (error) {
       toast.error("Failed to update profile");
-      // console.error("Error updating profile:", error);
     }
   };
 
   const toggleEditMode = () => setEditMode(!editMode);
 
   return (
-    <>
-      <div className="relative min-h-screen bg-gray-900 text-white">
-        <Header />
-        {user && (
-          <section className="pt-16 dark:bg-gray-900 pb-4">
-            <div className="lg:w-[90%] mx-auto">
-              <div className="mx-auto flex items-start gap-10 mt-4 ">
-                {/* Left side: UserProfile */}
+    <div className="relative min-h-screen bg-gray-900 text-white">
+      <Header />
+      {user && (
+        <section className="pt-16 dark:bg-gray-900 pb-4">
+          <div className="lg:w-[90%] mx-auto">
+            <div className="flex flex-col lg:flex-row lg:items-start gap-10 mt-4">
+              {/* Left side: UserProfile */}
+              <div className={`flex justify-center lg:w-1/4 ${windowWidth < 900 ? '' : 'sticky lg:top-[15%] '}`}>
                 <UserProfile
                   user={user}
                   githubURL={githubURL}
@@ -96,9 +101,10 @@ const Profile = () => {
                   toggleEditMode={toggleEditMode}
                   editMode={editMode}
                 />
-
-                {/* Right side: UserDetails or Submission Data */}
-                {editMode === true ? (
+              </div>
+              {/* Right side: UserDetails or Submission Data */}
+              <div className={`lg:w-3/4 flex justify-center`}>
+                {editMode ? (
                   <UserDetails
                     formData={formData}
                     handleInputChange={handleInputChange}
@@ -106,14 +112,14 @@ const Profile = () => {
                     editMode={editMode}
                   />
                 ) : (
-                  <UserData limit = {5}  /> // Render the SubmissionData component
+                  <UserData limit={5} />
                 )}
               </div>
             </div>
-          </section>
-        )}
-      </div>
-    </>
+          </div>
+        </section>
+      )}
+    </div>
   );
 };
 

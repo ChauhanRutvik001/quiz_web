@@ -23,7 +23,6 @@ const EditQuiz = () => {
   const navigate = useNavigate();
   const { code } = useParams(); // Get quiz ID from route params
 
-  const token = localStorage.getItem("UserToken");
   const formatDateForInput = (dateString) => {
     if (!dateString) return ""; // Return an empty string if the date is not provided
 
@@ -44,7 +43,7 @@ const EditQuiz = () => {
         // console.log("code", code);
         const response = await axiosInstance.post(`quiz/join`, {
           code: code,
-          userId: user.value,
+          userId: user._id,
         });
         const data = response.data;
         console.log(data);
@@ -250,10 +249,10 @@ const EditQuiz = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-gray-100">
+    <div className="relative min-h-screen bg-gray-900 text-gray-100">
       <Header />
 
-      <div className="container mx-auto p-6 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
+      <div className="mx-auto p-6 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
         <div className="mb-12 mt-16">
           <h1 className="text-3xl mb-3 font-bold text-center text-white">
             Edit Quiz
