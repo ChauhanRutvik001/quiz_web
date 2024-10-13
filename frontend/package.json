@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.3",
+    "netflix": "file:..",
     "pdf-parse": "^1.1.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.5",
