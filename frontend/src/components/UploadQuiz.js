@@ -43,6 +43,8 @@ const FileUpload = () => {
 
     try {
       setLoading(true);
+      console.log("hello");
+      console.log(formData);
       const response = await axiosInstance.post(
         "generate-mcqs",
         formData,
@@ -56,7 +58,7 @@ const FileUpload = () => {
       );
       // Set the generated questions to the 'questions' state
       // console.log(response);
-      // console.log(response.data.questions);
+      console.log(response.data.questions);
       setQuestions(response.data.questions);
       //  Initialize validity state based on the fetched quiz data
       const initialValidity = response.data.questions.map((q) => ({
@@ -67,7 +69,7 @@ const FileUpload = () => {
       setQuizShow(true);
       setQuestionsValidity(initialValidity);
     } catch (error) {
-      // console.error("Error generating MCQs:", error);
+      console.error("Error generating MCQs:", error);
       toast.error("Error generating MCQs. Please try again.");
     } finally {
       setLoading(false);

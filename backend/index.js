@@ -149,7 +149,7 @@ app.post(
 
     python.on("close", (code) => {
       if (code !== 0) {
-        return res.status(500).json({ error: "Error generating questions" });
+        return res.status(500).json({ error: "Error generating questions in code" });
       }
 
       try {
@@ -167,7 +167,7 @@ app.post(
         console.error(`Failed to parse output: ${err.message}`);
         res
           .status(500)
-          .json({ error: "Failed to process output from Python script" });
+          .json({ error: `Failed to process output from Python script ${err.message}`  });
       } finally {
         fs.unlinkSync(pdfPath); // Clean up the uploaded PDF file
       }
