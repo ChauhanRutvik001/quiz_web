@@ -196,16 +196,13 @@ const AddQuiz = () => {
       description: quizDescription,
       questions: questions,
       userId: user._id,
-      startDate,
-      endDate,
+      startDate: new Date(startDate).toISOString(),
+      endDate: new Date(endDate).toISOString(),
     };
 
     try {
       console.log(quizData);
-      const response = await axiosInstance.post(
-        `quiz/create`,
-        quizData,
-      );
+      const response = await axiosInstance.post(`quiz/create`, quizData);
 
       toast.success("Quiz Created successfully!");
       const data = response.data;
