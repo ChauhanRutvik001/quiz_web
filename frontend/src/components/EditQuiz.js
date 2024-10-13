@@ -25,6 +25,8 @@ const EditQuiz = () => {
 
   const token = localStorage.getItem("UserToken");
   const formatDateForInput = (dateString) => {
+    if (!dateString) return ""; // Return an empty string if the date is not provided
+
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -40,10 +42,10 @@ const EditQuiz = () => {
     const fetchQuiz = async () => {
       try {
         // console.log("code", code);
-        const response = await axiosInstance.post(
-          `quiz/join`,
-          { code: code, userId: user.value },
-        );
+        const response = await axiosInstance.post(`quiz/join`, {
+          code: code,
+          userId: user.value,
+        });
         const data = response.data;
         console.log(data);
         if (data.success) {
@@ -221,17 +223,13 @@ const EditQuiz = () => {
     const quizData = {
       title: quizTitle,
       description: quizDescription,
-      startDate : startDate,
-      endDate : endDate,
+      startDate: new Date(startDate).toISOString(),
+      endDate: new Date(endDate).toISOString(),
       questions: questions,
     };
 
     try {
-      const response = await axiosInstance.put(
-        `quiz/${code}`,
-        quizData,
-        
-      );
+      const response = await axiosInstance.put(`quiz/${code}`, quizData);
 
       toast.success("Quiz updated successfully!");
       const data = response.data;
@@ -318,7 +316,7 @@ const EditQuiz = () => {
               <input
                 type="datetime-local"
                 className="w-full p-4 bg-gray-800 border rounded-lg mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={startDate}
+                value={startDate || ""} // Handle the case where startDate might be undefined or null
                 onChange={(e) => setStartDate(e.target.value)}
               />
             </div>
@@ -330,7 +328,7 @@ const EditQuiz = () => {
               <input
                 type="datetime-local"
                 className="w-full p-4 bg-gray-800 border rounded-lg mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={endDate}
+                value={endDate || ""} // Handle the case where endDate might be undefined or null
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>

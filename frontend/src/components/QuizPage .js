@@ -26,9 +26,7 @@ const QuizPage = () => {
     const fetchQuiz = async () => {
       try {
         const code = window.location.pathname.split("/").pop();
-        const response = await axiosInstance.get(
-          `quiz/${code}`,
-        );
+        const response = await axiosInstance.get(`quiz/${code}`);
         if (!response.ok) {
           toast.error("An error occurred while fetching the quiz.");
           return;
@@ -49,32 +47,24 @@ const QuizPage = () => {
 
   useEffect(() => {
     if (quiz && quiz.endDate) {
-      const endDate = new Date(quiz.endDate).getTime();
-      const intervalId = setInterval(() => {
-        const now = new Date().getTime();
-        const timeLeft = endDate - now;
+      const endDateInMs = new Date(quiz.endDate).getTime();
 
-        if (timeLeft <= 0) {
+      const intervalId = setInterval(() => {
+        const nowInMs = new Date().getTime();
+        const remainingTimeInMs = endDateInMs - nowInMs;
+
+        if (remainingTimeInMs <= 0) {
           clearInterval(intervalId);
           setRemainingTime(0);
           toast.error("Time is up! Quiz submission is disabled.");
         } else {
-          setRemainingTime(timeLeft);
+          setRemainingTime(remainingTimeInMs);
         }
       }, 1000);
 
       return () => clearInterval(intervalId);
     }
   }, [quiz]);
-
-  const formatTime = (time) => {
-    const days = Math.floor(time / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((time % (1000 * 60)) / 1000);
-
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  };
 
   const handleAnswerChange = (questionId, answer, type) => {
     setAnswers((prevAnswers) => {
@@ -115,17 +105,14 @@ const QuizPage = () => {
     const score = calculateScore();
 
     try {
-      const response = await axiosInstance.post(
-        "quiz/submit",
-        {
-          quizId: quiz._id,
-          quizCode: quiz.code,
-          Creater: quiz.userId,
-          userId: user._id,
-          username: user.fullName,
-          score: score,
-        },
-      );
+      const response = await axiosInstance.post("quiz/submit", {
+        quizId: quiz._id,
+        quizCode: quiz.code,
+        Creater: quiz.userId,
+        userId: user._id,
+        username: user.fullName,
+        score: score,
+      });
 
       const result = response.data;
       if (result.success) {
@@ -231,11 +218,39 @@ const QuizPage = () => {
                 {quiz.description}
               </p>
 
-              <div className="text-white mb-6 text-sm sm:text-lg text-center">
-                Remaining Time:{" "}
-                {remainingTime !== null
-                  ? formatTime(remainingTime)
-                  : "Calculating..."}
+              <div className="text-center mb-6">
+                <p className="text-gray-300 text-lg mb-4">Starts in</p>
+                <div className="flex justify-center space-x-4">
+                  <div className="bg-gray-800 text-white p-4 rounded-lg">
+                    <p className="text-3xl font-semibold">
+                      {Math.floor(remainingTime / (1000 * 60 * 60 * 24))}
+                    </p>
+                    <p className="text-sm mt-2">day</p>
+                  </div>
+                  <div className="bg-gray-800 text-white p-4 rounded-lg">
+                    <p className="text-3xl font-semibold">
+                      {Math.floor(
+                        (remainingTime % (1000 * 60 * 60 * 24)) /
+                          (1000 * 60 * 60)
+                      )}
+                    </p>
+                    <p className="text-sm mt-2">hrs</p>
+                  </div>
+                  <div className="bg-gray-800 text-white p-4 rounded-lg">
+                    <p className="text-3xl font-semibold">
+                      {Math.floor(
+                        (remainingTime % (1000 * 60 * 60)) / (1000 * 60)
+                      )}
+                    </p>
+                    <p className="text-sm mt-2">mins</p>
+                  </div>
+                  <div className="bg-gray-800 text-white p-4 rounded-lg">
+                    <p className="text-3xl font-semibold">
+                      {Math.floor((remainingTime % (1000 * 60)) / 1000)}
+                    </p>
+                    <p className="text-sm mt-2">secs</p>
+                  </div>
+                </div>
               </div>
 
               <hr className="border-gray-500 opacity-70 mb-6" />
