@@ -167,11 +167,11 @@ const Quiz = () => {
 
                 <p className="text-gray-400 mb-4">
                   <span className="font-semibold">Quiz Start:</span>{" "}
-                  {new Date(quiz.startDate).toLocaleString()}
+                  {new Date(quiz.startDate).toLocaleString('en-IN', { timeZone })}
                 </p>
                 <p className="text-gray-400 mb-4">
                   <span className="font-semibold">Quiz End:</span>{" "}
-                  {new Date(quiz.endDate).toLocaleString()}
+                  {new Date(quiz.startDate).toLocaleString('en-IN', { timeZone })}
                 </p>
                 <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
                   <button
