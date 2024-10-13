@@ -5,12 +5,15 @@ import User from "../models/userModel.js";
 
 // Create a new quiz
 
+
 export const createQuiz = async (req, res) => {
   try {
     const { title, description, questions, userId, startDate, endDate } = req.body;
     const code = uuidv4(); // Generate a unique code for the quiz
 
-    console.log("userId", userId);
+    console.log("userId:", userId);
+    console.log("Start Date (raw):", startDate);
+    console.log("End Date (raw):", endDate);
 
     // Check if userId is provided
     if (!userId) {
@@ -26,29 +29,56 @@ export const createQuiz = async (req, res) => {
         .json({ success: false, message: "Start and End dates are required" });
     }
 
-    if (new Date(startDate) >= new Date(endDate)) {
+    // Convert the dates to local time
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (start >= end) {
       return res
         .status(400)
         .json({ success: false, message: "Start date must be earlier than end date" });
     }
 
-    // Create new quiz
+    // Optional: Formatting for logging purposes
+    const formattedStartDate = start.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    const formattedEndDate = end.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    console.log("Formatted Start Date:", formattedStartDate);
+    console.log("Formatted End Date:", formattedEndDate);
+
+    // Create the quiz object with local time dates
     const newQuiz = new Quiz({
       title,
       description,
       questions,
       code,
       userId,
-      startDate,
-      endDate
+      startDate: start, // Store the original dates without any timezone adjustments
+      endDate: end,
     });
 
-    console.log("newQuiz ::::", newQuiz);  
+    console.log("newQuiz:", newQuiz);
     await newQuiz.save();
-    console.log("newQuiz saved");
+    console.log("newQuiz saved successfully");
 
     res.status(201).json({ success: true, quiz: newQuiz });
   } catch (error) {
+    console.error("Error creating quiz:", error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
