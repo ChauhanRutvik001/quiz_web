@@ -201,6 +201,7 @@ const AddQuiz = () => {
     };
 
     try {
+      console.log(quizData);
       const response = await axiosInstance.post(
         `quiz/create`,
         quizData,
