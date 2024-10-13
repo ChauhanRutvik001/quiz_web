@@ -26,7 +26,7 @@ const Quiz = () => {
             params: { userId: user._id },  
           }
         );
-        // console.log(response.data);
+        console.log(response.data);
         if (response.data.success) {
           const sortedQuizzes = response.data.quizzes.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)

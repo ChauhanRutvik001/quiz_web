@@ -128,8 +128,8 @@ app.post(
     }
 
     console.log("hello");
-    const pythonScriptPath = path.join(_dirname, "backend", "model.py");
-
+    const pythonScriptPath = "./model.py";
+    console.log(pythonScriptPath);
     const python = spawn("python", [
       pythonScriptPath,
       pdfPath,
