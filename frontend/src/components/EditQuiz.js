@@ -45,7 +45,7 @@ const EditQuiz = () => {
           { code: code, userId: user.value },
         );
         const data = response.data;
-        // console.log(data);
+        console.log(data);
         if (data.success) {
           setQuizTitle(data.quiz.title);
           setQuizDescription(data.quiz.description);
