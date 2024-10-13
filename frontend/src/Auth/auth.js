@@ -10,13 +10,13 @@ class Auth {
       const data = response.data;
       console.log(data)
       if (data.success) {
-        // console.log(data)
+        console.log(data)
         return { data, authStatus: true };
       } else {
         return { authStatus: false };
       }
     } catch (err) {
-      // console.error("An error occurred:", err);
+      console.error("An error occurred: -->", err);
       return { authStatus: false };
     }
   };

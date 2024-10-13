@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 const upload = multer({ dest: 'uploads/' });
-app.use(express.static(path.join(_dirname, '/frontend/dist')));
+app.use(express.static(path.join(_dirname, '/frontend/build')));
 
 const corsOptions = {
     origin: process.env.ORIGIN,
@@ -36,7 +36,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/user/quiz", quizRoute);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+  res.sendFile(path.resolve(_dirname, "frontend", "build", "index.html"));
 });
 
 // Start server
