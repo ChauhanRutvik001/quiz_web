@@ -8,6 +8,7 @@ import ConfirmModal from "./ConfirmModal";
 import axiosInstance from "../utils/axiosinstance";
 
 const Quiz = () => {
+  const timeZone = 'Asia/Kolkata'; 
   const [quizzes, setQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // New state for search query
   const navigate = useNavigate();
