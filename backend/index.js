@@ -128,7 +128,7 @@ app.post(
     }
 
     console.log("hello");
-    const pythonScriptPath = "./model.py";
+    const pythonScriptPath = path.join(_dirname, "backend", "model.py");
     console.log(pythonScriptPath);
     const python = spawn("python", [
       pythonScriptPath,
