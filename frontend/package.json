@@ -27,6 +27,7 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
     "redux-persist": "^6.0.0",
+    "sass": "^1.79.5",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

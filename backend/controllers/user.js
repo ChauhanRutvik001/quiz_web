@@ -76,9 +76,9 @@ export const Login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // secure flag for production
+        secure: false, // secure flag for production
         expires: new Date(Date.now() + oneDay), 
-        sameSite: 'None',// 1 day expiration
+        sameSite: 'Lax',// 1 day expiration
       })
       .json({
         message: `Welcome back ${user.fullName}`,
@@ -124,7 +124,9 @@ export const getCurrentUser = async (req, res) => {
       });
     }
 
+    console.log("token --> " + token);
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "ChauhanRutvik"); // Use ENV secret
+    console.log("decoded --> " + decoded);
     const user = await User.findById(decoded.id);
 
     if (!user) {

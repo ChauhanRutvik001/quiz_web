@@ -17,7 +17,7 @@ const Header = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle menu visibility
   const [isScreenSmall, setIsScreenSmall] = useState(false); // State for screen size
-
+  console.log("status -->" + authStatus)
   useEffect(() => {
     if (!authStatus) {
       navigate("/");
