@@ -147,7 +147,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto px-4 py-8">
         <header className="mb-8 flex flex-col md:flex-row justify-between items-center">
           <div>
             <h1 className="text-2xl md:text-4xl font-bold text-blue-600 mb-4">Quiz Submissions Dashboard</h1>

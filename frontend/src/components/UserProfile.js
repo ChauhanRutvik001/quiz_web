@@ -4,8 +4,8 @@ import { FaUser, FaGithub, FaLinkedin } from "react-icons/fa";
 const UserProfile = ({ user, githubURL, linkedInURL, formData, toggleEditMode, editMode }) => {
   return (
     <div
-      className="flex flex-col items-center space-y-4 sticky top-20 ml-10"
-      style={{ width: "20%" }}
+      className="flex flex-col items-center space-y-4"
+      style={{ width: "100%"}} // Full width for centering
     >
       <div className="border border-gray-100 p-8 rounded-full">
         <FaUser size={100} />
@@ -16,7 +16,7 @@ const UserProfile = ({ user, githubURL, linkedInURL, formData, toggleEditMode, e
       </h2>
       <p className="text-gray-500">{user.email}</p>
 
-      <div className="flex items-center">
+      <div className="flex items-center justify-center">
         <a
           href={githubURL}
           target="_blank"
@@ -41,7 +41,9 @@ const UserProfile = ({ user, githubURL, linkedInURL, formData, toggleEditMode, e
 
       <button
         onClick={toggleEditMode} // Toggle edit mode
-        className={`mt-4 ${editMode ? "bg-red-500" : "bg-blue-500"} text-white py-2 px-4 rounded-md`}
+        className={`mt-4 ${
+          editMode ? "bg-red-500" : "bg-blue-500"
+        } text-white py-2 px-4 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105`}
       >
         {editMode ? "Cancel Edit" : "Edit Profile"}
       </button>

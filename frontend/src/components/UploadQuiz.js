@@ -20,7 +20,6 @@ const FileUpload = () => {
   const [isDescriptionValid, setIsDescriptionValid] = useState(true);
   const [questionsValidity, setQuestionsValidity] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to handle modal visibility
   const [startDate, setStartDate] = useState(""); // State for start date
   const [endDate, setEndDate] = useState(""); // State for end date
 

@@ -7,7 +7,7 @@ const UserDetails = ({
   editMode,
 }) => {
   return (
-    <div className="flex flex-col space-y-4 w-[90%] mr-10">
+    <div className="flex flex-col space-y-4 w-full max-w-3xl mx-auto p-4"> {/* Added margin and max-width */}
       <div
         className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6"
         style={{ boxShadow: "1px 1px 4px white" }}
@@ -30,7 +30,7 @@ const UserDetails = ({
 
           {/* Other fields: GitHub, LinkedIn, Gender, Birthday, Location, Skills, Education */}
 
-          <div>
+          <div className="col-span-2">
             <label className="block text-gray-700 dark:text-gray-300 mb-2">
               Github
             </label>
@@ -45,7 +45,7 @@ const UserDetails = ({
             />
           </div>
 
-          <div>
+          <div className="col-span-2">
             <label className="block text-gray-700 dark:text-gray-300 mb-2">
               LinkedIn
             </label>

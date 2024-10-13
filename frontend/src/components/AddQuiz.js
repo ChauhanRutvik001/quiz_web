@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import axiosInstance from "../utils/axiosinstance";
 
 const AddQuiz = () => {
-  const token = localStorage.getItem("UserToken");
   const [quizTitle, setQuizTitle] = useState("");
   const [quizDescription, setQuizDescription] = useState("");
   const [startDate, setStartDate] = useState(""); // State for start date
@@ -239,9 +238,9 @@ const AddQuiz = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-gray-100">
+    <div className="relative min-h-screen bg-gray-900 text-gray-100">
       <Header />
-      <div className="container mx-auto p-6 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
+      <div className="mx-auto p-6  bg-opacity-90 rounded-lg shadow-lg">
         <div className="mb-12 mt-16">
           <h1 className="text-3xl mb-3 font-bold text-center text-white">
             Create Quiz
