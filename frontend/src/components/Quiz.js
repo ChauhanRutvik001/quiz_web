@@ -8,7 +8,6 @@ import ConfirmModal from "./ConfirmModal";
 import axiosInstance from "../utils/axiosinstance";
 
 const Quiz = () => {
-  const timeZone = 'Asia/Kolkata'; 
   const [quizzes, setQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // New state for search query
   const navigate = useNavigate();
@@ -168,11 +167,11 @@ const Quiz = () => {
 
                 <p className="text-gray-400 mb-4">
                   <span className="font-semibold">Quiz Start:</span>{" "}
-                  {new Date(quiz.startDate).toLocaleString('en-IN', { timeZone })}
+                  {new Date(quiz.startDate).toLocaleString()}
                 </p>
                 <p className="text-gray-400 mb-4">
                   <span className="font-semibold">Quiz End:</span>{" "}
-                  {new Date(quiz.startDate).toLocaleString('en-IN', { timeZone })}
+                  {new Date(quiz.endDate).toLocaleString()}
                 </p>
                 <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
                   <button
