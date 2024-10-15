@@ -37,24 +37,22 @@ const EditQuiz = () => {
   };
 
   useEffect(() => {
-    // Fetch existing quiz data
     const fetchQuiz = async () => {
       try {
-        // console.log("code", code);
-        const response = await axiosInstance.post(`quiz/join`, {
+        const response = await axiosInstance.post("quiz/join", {
           code: code,
           userId: user._id,
+          action: "fetch", // Specify the action as 'fetch'
         });
+  
         const data = response.data;
-        console.log(data);
         if (data.success) {
           setQuizTitle(data.quiz.title);
           setQuizDescription(data.quiz.description);
           setQuestions(data.quiz.questions);
           setStartDate(formatDateForInput(data.quiz.startDate));
           setEndDate(formatDateForInput(data.quiz.endDate));
-          // console.log(data.quiz.questions);
-
+  
           // Initialize validity state based on the fetched quiz data
           const initialValidity = data.quiz.questions.map((q) => ({
             isQuestionValid: q.question.trim() !== "",
@@ -69,9 +67,10 @@ const EditQuiz = () => {
         toast.error("Error fetching quiz data: " + error.message);
       }
     };
-
+  
     fetchQuiz();
   }, [code, user._id]);
+  
 
   const handleBackClick = () => {
     setIsModalOpen(true); // Open the modal when the "Back" button is clicked

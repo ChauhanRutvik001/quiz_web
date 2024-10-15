@@ -34,24 +34,20 @@ const Browse = () => {
   
     try {
       setIsLoading(true); // Start loading state
-      // console.log("Joining quiz with code:", joinCode); // Debugging log
   
-      const response = await axiosInstance.post(
-        "quiz/join",
-        { code: joinCode, userId: user._id }
-      );
-  
-      // console.log("Join quiz response:", response);
-      // console.log("Join quiz response status:", response.data.quiz.status);
+      const response = await axiosInstance.post("quiz/join", {
+        code: joinCode,
+        userId: user._id,
+        action: "join", // Ensure the action is specified here
+      });
   
       if (response.status === 200) {
-        if(response.data.quiz.status === "upcoming" || response.data.quiz.status === "ended") {
+        if (response.data.quiz.status === "upcoming" || response.data.quiz.status === "ended") {
           toast.error("This quiz is not yet available.");
           setErrorMessage("This quiz is not yet available.");
           return;
         }
         const quizData = response.data.quiz;
-        // console.log(quizData)
         toast.success("Quiz joined successfully!");
         navigate(`/quiz/${quizData.code}`, { state: { quiz: quizData } });
       } else if (response.status === 202) {
@@ -62,7 +58,6 @@ const Browse = () => {
         setErrorMessage("Invalid code. Please try again.");
       }
     } catch (error) {
-      // console.error("Error joining quiz:", error);
       toast.error("Failed to join the quiz. Please try again later.");
       setErrorMessage("Failed to join the quiz. Please try again later.");
     } finally {
