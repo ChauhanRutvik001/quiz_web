@@ -104,15 +104,20 @@ export const getAllQuizzes = async (req, res) => {
 // Get a single quiz by code (for accessing a quiz by code)
 export const joinQuiz = async (req, res) => {
   try {
-    const { userId, code } = req.body; // The code and userId sent by the frontend
+    const { userId, code, action } = req.body;
+
+    // Validate that the action parameter is provided
+    if (!action) {
+      return res.status(400).json({ success: false, message: "Action is required." });
+    }
+
     console.log("userId", userId);
     console.log("Received code:", code);
+    console.log("Action:", action);
 
     // Find the quiz by the provided code
     const quiz = await Quiz.findOne({ code });
 
-    
-    // If the quiz is not found, send a 404 response
     if (!quiz) {
       return res.status(404).json({ success: false, message: "Quiz not found" });
     }
@@ -120,20 +125,23 @@ export const joinQuiz = async (req, res) => {
     // Check if the user has already submitted the quiz
     const submission = await QuizSubmission.findOne({ userId, quizId: quiz._id });
 
-    // If the user has already submitted the quiz, return a 202 response with a message
-    if (submission) {
-      return res.status(202).json({ success: false, message: "You have already submitted this quiz." });
+    if (action === "join") {
+      if (submission) {
+        return res.status(202).json({ success: false, message: "You have already submitted this quiz." });
+      }
+
+      res.status(200).json({ success: true, quiz });
+    } else if (action === "fetch") {
+      res.status(200).json({ success: true, quiz });
+    } else {
+      res.status(400).json({ success: false, message: "Invalid action" });
     }
-    
-    // console.log("quiz", quiz);
-    // If the user hasn't submitted the quiz, allow them to join
-    res.status(200).json({ success: true, quiz });
   } catch (error) {
-    // Handle any server errors and send a 500 response
     console.error("Error in joinQuiz:", error);
     res.status(500).json({ success: false, message: "Server error, please try again later." });
   }
 };
+
 
 
 // Edit a quiz
@@ -184,15 +192,15 @@ export const deleteQuiz = async (req, res) => {
 
     // Log submissions before deletion
     const submissionsBefore = await QuizSubmission.find({ quizId: quiz._id });
-    // console.log("Submissions found before deletion:", submissionsBefore);
+    console.log("Submissions found before deletion:", submissionsBefore);
 
     // Delete submissions
     const result = await QuizSubmission.deleteMany({ quizId: quiz._id });
-    // console.log("Number of submissions deleted:", result.deletedCount);
+    console.log("Number of submissions deleted:", result.deletedCount);
 
     // Log submissions after deletion
     const submissionsAfter = await QuizSubmission.find({ quizId: quiz._id });
-    // console.log("Submissions found after deletion:", submissionsAfter);
+    console.log("Submissions found after deletion:", submissionsAfter);
 
     // Ensure the response is sent after all operations are complete
     res.status(200).json({ success: true, message: "Quiz and submissions deleted successfully" });
