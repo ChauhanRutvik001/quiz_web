@@ -65,7 +65,7 @@ const Header = () => {
   return (
     <div className="z-10 w-full flex items-center justify-between px-4 md:px-6 bg-gradient-to-b bg-black bg-opacity-50 backdrop-blur-md py-2 fixed">
       {/* Logo with CR (Chauhan Rutvik) */}
-      <div className="flex">
+      <div className="flex cursor-pointer" onClick={()=> navigate("/")}>
         <span
           className="text-sm md:text-lg font-bold text-yellow-400 uppercase tracking-wider"
           style={{

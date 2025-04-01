@@ -22,7 +22,7 @@ export const Register = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcryptjs.hash(password, 16);
+    const hashedPassword = await bcryptjs.hash(password, 8);
 
     await User.create({
       fullName,
@@ -42,13 +42,6 @@ export const Register = async (req, res) => {
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(401).json({
-        message: "Invalid data",
-        success: false,
-      });
-    }
 
     const user = await User.findOne({ email });
     if (!user) {

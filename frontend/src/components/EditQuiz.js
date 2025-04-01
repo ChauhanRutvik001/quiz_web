@@ -247,6 +247,16 @@ const EditQuiz = () => {
     setQuestions(questions.filter((_, i) => i !== index));
   };
 
+  const shuffleQuestions = () => {
+    const shuffledQuestions = [...questions];
+    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+    }
+    setQuestions(shuffledQuestions);
+    toast.success("Questions shuffled successfully!");
+  };
+
   return (
     <div className="relative min-h-screen bg-gray-900 text-gray-100">
       <Header />
@@ -330,6 +340,13 @@ const EditQuiz = () => {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
+
+            <div>
+                <a onClick={shuffleQuestions}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 cursor-pointer">
+                  Shuffle Question
+                </a>
+              </div>
           </div>
 
           {questions.map((q, qIndex) => (

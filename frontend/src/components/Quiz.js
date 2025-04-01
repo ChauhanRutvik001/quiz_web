@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import ConfirmModal from "./ConfirmModal";
 import axiosInstance from "../utils/axiosinstance";
+import { FaSpinner, FaExclamationCircle, FaTrash, FaFilePdf, FaFileExcel  } from 'react-icons/fa';
 
 const Quiz = () => {
   const [quizzes, setQuizzes] = useState([]);

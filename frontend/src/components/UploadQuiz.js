@@ -44,17 +44,13 @@ const FileUpload = () => {
       setLoading(true);
       console.log("hello");
       console.log(formData);
-      const response = await axiosInstance.post(
-        "generate-mcqs",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axiosInstance.post("generate-mcqs", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
       // Set the generated questions to the 'questions' state
       // console.log(response);
       console.log(response.data.questions);
@@ -74,8 +70,6 @@ const FileUpload = () => {
       setLoading(false);
     }
   };
-
-
 
   const handleQuestionChange = (index, value) => {
     const newQuestions = [...questions];
@@ -223,8 +217,8 @@ const FileUpload = () => {
         };
       }),
       userId: user._id,
-      startDate:startDate,
-      endDate:endDate
+      startDate: startDate,
+      endDate: endDate,
     };
 
     // questions.forEach((q, index) => {
@@ -236,16 +230,12 @@ const FileUpload = () => {
 
     try {
       // console.log(quizData);
-      const response = await axiosInstance.post(
-        `quiz/create`,
-        quizData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axiosInstance.post(`quiz/create`, quizData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
 
       toast.success("Quiz Created successfully!");
       const data = response.data;
@@ -269,6 +259,16 @@ const FileUpload = () => {
 
   const handleRemoveQuestion = (index) => {
     setQuestions(questions.filter((_, i) => i !== index));
+  };
+
+  const shuffleQuestions = () => {
+    const shuffledQuestions = [...questions];
+    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+    }
+    setQuestions(shuffledQuestions);
+    toast.success("Questions shuffled successfully!");
   };
 
   return (
@@ -337,7 +337,7 @@ const FileUpload = () => {
                   <div className=" flex justify-center items-center text-center text-white">
                     <FaSpinner className="animate-spin text-4xl mb-4" />
                   </div>
-                    <p className="text-lg"> Generating MCQs...</p>
+                  <p className="text-lg"> Generating MCQs...</p>
                 </div>
               )}
             </button>
@@ -393,30 +393,37 @@ const FileUpload = () => {
               )}
 
               <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              Start Date :
-            </label>
-            <input
-              type="datetime-local"
-              className="w-full p-4 bg-gray-800 text-white border rounded-lg mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              required
-            />
-          </div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Start Date :
+                </label>
+                <input
+                  type="datetime-local"
+                  className="w-full p-4 bg-gray-800 text-white border rounded-lg mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  required
+                />
+              </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              End Date :
-            </label>
-            <input
-              type="datetime-local"
-              className="w-full p-4 bg-gray-800  text-white border rounded-lg mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              required
-            />
-          </div>
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  End Date :
+                </label>
+                <input
+                  type="datetime-local"
+                  className="w-full p-4 bg-gray-800  text-white border rounded-lg mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <a onClick={shuffleQuestions}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 cursor-pointer">
+                  Shuffle Question
+                </a>
+              </div>
             </div>
 
             {questions.map((q, qIndex) => (
